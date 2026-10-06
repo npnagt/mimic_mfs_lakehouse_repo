@@ -1,0 +1,8 @@
+Multimodal Fusion Schema - reference implementation on MIMIC-IV
+Copyright 2026 Narendra P. Nagtode
+
+This product includes software developed by Narendra P. Nagtode.
+
+This repository contains no MIMIC-IV or MIMIC-IV-Note data. Those datasets are
+distributed separately by PhysioNet under the PhysioNet Credentialed Health Data
+Use Agreement, which this license does not cover.

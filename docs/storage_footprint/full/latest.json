@@ -1,0 +1,2957 @@
+{
+  "meta": {
+    "script_version": "1.2.0",
+    "generated_utc": "2026-10-01T01:02:50.192021+00:00",
+    "dataset": "fulldataset",
+    "git_commit": "32d9123",
+    "aws_account": "605785396773",
+    "region": "us-east-2",
+    "raw_bucket": "mimic4-datalake-v3-2-full",
+    "gold_bucket": "mimic4-lakehouse-v3-2-full",
+    "nlp_bucket": "mimic4-nlp-v3-2-full",
+    "scripts_bucket": "mimic4-glue-scripts-v3-2-bucket",
+    "gold_database": "mimic4_db_business_full",
+    "gold_prefix": "mimic_bus",
+    "athena_workgroup": "mimic4-lakehouse",
+    "athena_output": "s3://mimic4-lakehouse-v3-2-full/athena-results/",
+    "skip_athena": false,
+    "exact_rows": false,
+    "aurora_baseline_file": "docs/storage_footprint/aurora_baseline.json",
+    "json_filename": "storage_footprint_20261001T010250Z.json",
+    "queries": {
+      "physical": "s3:ListObjectsV2 per bucket",
+      "live_snapshot": "SELECT count(*), sum(file_size_in_bytes), sum(record_count) FROM \"<db>\".\"<table>$files\"",
+      "exact_rows": null
+    }
+  },
+  "structured_vs_unstructured": {
+    "structured": {
+      "raw_csv_bytes": 10656208236,
+      "gold_physical_bytes": 4941384129,
+      "gold_live_bytes": 2133287641,
+      "gold_table_count": 42,
+      "physical_bytes": 15597592365,
+      "live_bytes": 12789495877,
+      "physical_share_pct": 73.2364,
+      "rds_warehouse_equivalent": true
+    },
+    "unstructured_nlp": {
+      "note_text_bytes": 1921034145,
+      "note_parquet_bytes": 3186351281,
+      "nlp_gold_physical_bytes": 26061950,
+      "nlp_gold_live_bytes": 8148588,
+      "nlp_gold_table_count": 3,
+      "nlp_debug_bytes": 566286615,
+      "physical_bytes": 5699733991,
+      "live_bytes": 5681820629,
+      "physical_share_pct": 26.7623,
+      "rds_warehouse_equivalent": false
+    },
+    "infrastructure": {
+      "physical_bytes": 266773,
+      "physical_share_pct": 0.0013,
+      "note": "Glue job scripts + stray Athena query results -- neither modality"
+    },
+    "grand_total_physical_bytes": 21297593129,
+    "p3_comparable_bytes": {
+      "structured_physical": 15597592365,
+      "structured_live": 12789495877,
+      "note": "compare structured_live (or a post-OPTIMIZE re-measure) against the Aurora warehouse's pg_total_relation_size over hosp/icu/staging/warehouse plus its raw S3 landing copy"
+    },
+    "lakehouse_only_bytes": 5699733991
+  },
+  "dw_vs_lakehouse": {
+    "aurora_baseline_source": "AWS RDS Aurora PostgreSQL data warehouse (mimic_datawarehouse_repo)",
+    "aurora_measured_utc": "2026-09-22",
+    "aurora_tables": [
+      {
+        "schema": "warehouse",
+        "table": "fact_input_event",
+        "category": "structured",
+        "row_count": 999887,
+        "total_bytes": 486088704,
+        "live_bytes": 468999248
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_prescription",
+        "category": "structured",
+        "row_count": 999892,
+        "total_bytes": 417521664,
+        "live_bytes": 404597912
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_ingredient_event",
+        "category": "structured",
+        "row_count": 1000020,
+        "total_bytes": 381861888,
+        "live_bytes": 368268816
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_microbiology_result",
+        "category": "structured",
+        "row_count": 1000166,
+        "total_bytes": 353583104,
+        "live_bytes": 340069248
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_procedure_event",
+        "category": "structured",
+        "row_count": 808693,
+        "total_bytes": 341917696,
+        "live_bytes": 329741944
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_pharmacy_order",
+        "category": "structured",
+        "row_count": 999850,
+        "total_bytes": 334217216,
+        "live_bytes": 320376952
+      },
+      {
+        "schema": "staging",
+        "table": "stg_inputevents",
+        "category": "structured",
+        "row_count": 1000139,
+        "total_bytes": 324124672,
+        "live_bytes": 313870160
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_datetime_event",
+        "category": "structured",
+        "row_count": 1000000,
+        "total_bytes": 307470336,
+        "live_bytes": 297380408
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_medication_administration_mini_detail",
+        "category": "structured",
+        "row_count": 999936,
+        "total_bytes": 295280640,
+        "live_bytes": 284705216
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_output_event",
+        "category": "structured",
+        "row_count": 1000000,
+        "total_bytes": 291782656,
+        "live_bytes": 279971584
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_medication_administration",
+        "category": "structured",
+        "row_count": 999986,
+        "total_bytes": 288825344,
+        "live_bytes": 276919048
+      },
+      {
+        "schema": "staging",
+        "table": "stg_microbiologyevents",
+        "category": "structured",
+        "row_count": 999668,
+        "total_bytes": 285417472,
+        "live_bytes": 273371331
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_lab_result",
+        "category": "structured",
+        "row_count": 1000000,
+        "total_bytes": 273620992,
+        "live_bytes": 262439504
+      },
+      {
+        "schema": "staging",
+        "table": "stg_pharmacy",
+        "category": "structured",
+        "row_count": 999953,
+        "total_bytes": 265986048,
+        "live_bytes": 255566100
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_chart_observation",
+        "category": "structured",
+        "row_count": 1008075,
+        "total_bytes": 240279552,
+        "live_bytes": 229415372
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_provider_order",
+        "category": "structured",
+        "row_count": 1000000,
+        "total_bytes": 239116288,
+        "live_bytes": 228190448
+      },
+      {
+        "schema": "staging",
+        "table": "stg_prescriptions",
+        "category": "structured",
+        "row_count": 1000000,
+        "total_bytes": 223928320,
+        "live_bytes": 212801069
+      },
+      {
+        "schema": "staging",
+        "table": "stg_procedureevents",
+        "category": "structured",
+        "row_count": 808706,
+        "total_bytes": 213434368,
+        "live_bytes": 206400016
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_transfer",
+        "category": "structured",
+        "row_count": 1000000,
+        "total_bytes": 212590592,
+        "live_bytes": 202387712
+      },
+      {
+        "schema": "staging",
+        "table": "stg_ingredientevents",
+        "category": "structured",
+        "row_count": 1000000,
+        "total_bytes": 212008960,
+        "live_bytes": 204640016
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_outpatient_measurement",
+        "category": "structured",
+        "row_count": 1000000,
+        "total_bytes": 194387968,
+        "live_bytes": 184901936
+      },
+      {
+        "schema": "staging",
+        "table": "stg_emar",
+        "category": "structured",
+        "row_count": 1000000,
+        "total_bytes": 192774144,
+        "live_bytes": 182556443
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_diagnosis",
+        "category": "structured",
+        "row_count": 999977,
+        "total_bytes": 186499072,
+        "live_bytes": 176196572
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_drg_assignment",
+        "category": "structured",
+        "row_count": 761856,
+        "total_bytes": 183476224,
+        "live_bytes": 175708328
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_admission",
+        "category": "structured",
+        "row_count": 546028,
+        "total_bytes": 174948352,
+        "live_bytes": 167823832
+      },
+      {
+        "schema": "staging",
+        "table": "stg_labevents",
+        "category": "structured",
+        "row_count": 1000000,
+        "total_bytes": 168624128,
+        "live_bytes": 160175503
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_procedure",
+        "category": "structured",
+        "row_count": 859650,
+        "total_bytes": 164020224,
+        "live_bytes": 156072200
+      },
+      {
+        "schema": "staging",
+        "table": "stg_datetimeevents",
+        "category": "structured",
+        "row_count": 1000000,
+        "total_bytes": 152010752,
+        "live_bytes": 146350904
+      },
+      {
+        "schema": "staging",
+        "table": "stg_chartevents",
+        "category": "structured",
+        "row_count": 1000000,
+        "total_bytes": 144097280,
+        "live_bytes": 138606608
+      },
+      {
+        "schema": "staging",
+        "table": "stg_poe",
+        "category": "structured",
+        "row_count": 1000000,
+        "total_bytes": 141950976,
+        "live_bytes": 132400062
+      },
+      {
+        "schema": "staging",
+        "table": "stg_emar_detail",
+        "category": "structured",
+        "row_count": 1000000,
+        "total_bytes": 128573440,
+        "live_bytes": 119889899
+      },
+      {
+        "schema": "staging",
+        "table": "stg_outputevents",
+        "category": "structured",
+        "row_count": 1000000,
+        "total_bytes": 126099456,
+        "live_bytes": 115065536
+      },
+      {
+        "schema": "warehouse",
+        "table": "dim_patient",
+        "category": "structured",
+        "row_count": 364627,
+        "total_bytes": 125091840,
+        "live_bytes": 68242954
+      },
+      {
+        "schema": "staging",
+        "table": "stg_admissions",
+        "category": "structured",
+        "row_count": 546028,
+        "total_bytes": 118587392,
+        "live_bytes": 114791008
+      },
+      {
+        "schema": "staging",
+        "table": "stg_transfers",
+        "category": "structured",
+        "row_count": 1000000,
+        "total_bytes": 112803840,
+        "live_bytes": 105887203
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_service_assignment",
+        "category": "structured",
+        "row_count": 593070,
+        "total_bytes": 112492544,
+        "live_bytes": 107161096
+      },
+      {
+        "schema": "staging",
+        "table": "stg_poe_detail",
+        "category": "structured",
+        "row_count": 1000000,
+        "total_bytes": 89473024,
+        "live_bytes": 80037532
+      },
+      {
+        "schema": "staging",
+        "table": "stg_drgcodes",
+        "category": "structured",
+        "row_count": 761856,
+        "total_bytes": 87007232,
+        "live_bytes": 81803732
+      },
+      {
+        "schema": "staging",
+        "table": "stg_omr",
+        "category": "structured",
+        "row_count": 1000000,
+        "total_bytes": 84533248,
+        "live_bytes": 75437623
+      },
+      {
+        "schema": "staging",
+        "table": "stg_procedures_icd",
+        "category": "structured",
+        "row_count": 859655,
+        "total_bytes": 69042176,
+        "live_bytes": 65076072
+      },
+      {
+        "schema": "staging",
+        "table": "stg_diagnoses_icd",
+        "category": "structured",
+        "row_count": 1000000,
+        "total_bytes": 68329472,
+        "live_bytes": 64057344
+      },
+      {
+        "schema": "warehouse",
+        "table": "agg_admission_daily",
+        "category": "structured",
+        "row_count": 244500,
+        "total_bytes": 56737792,
+        "live_bytes": 36093840
+      },
+      {
+        "schema": "warehouse",
+        "table": "dim_diagnosis",
+        "category": "structured",
+        "row_count": 112107,
+        "total_bytes": 50692096,
+        "live_bytes": 27813122
+      },
+      {
+        "schema": "staging",
+        "table": "stg_services",
+        "category": "structured",
+        "row_count": 593071,
+        "total_bytes": 42934272,
+        "live_bytes": 38592997
+      },
+      {
+        "schema": "warehouse",
+        "table": "dim_procedure",
+        "category": "structured",
+        "row_count": 86423,
+        "total_bytes": 39624704,
+        "live_bytes": 21597762
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_hcpcs_event",
+        "category": "structured",
+        "row_count": 186074,
+        "total_bytes": 39370752,
+        "live_bytes": 37506832
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_provider_order_mini_detail",
+        "category": "structured",
+        "row_count": 159231,
+        "total_bytes": 35209216,
+        "live_bytes": 33620724
+      },
+      {
+        "schema": "warehouse",
+        "table": "dim_hcpcs",
+        "category": "structured",
+        "row_count": 89208,
+        "total_bytes": 32006144,
+        "live_bytes": 17383232
+      },
+      {
+        "schema": "staging",
+        "table": "stg_patients",
+        "category": "structured",
+        "row_count": 364627,
+        "total_bytes": 28262400,
+        "live_bytes": 25256907
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_icu_stay_accumulating",
+        "category": "structured",
+        "row_count": 94458,
+        "total_bytes": 26116096,
+        "live_bytes": 24996072
+      },
+      {
+        "schema": "warehouse",
+        "table": "dim_date",
+        "category": "structured",
+        "row_count": 47846,
+        "total_bytes": 20127744,
+        "live_bytes": 10654680
+      },
+      {
+        "schema": "staging",
+        "table": "stg_hcpcsevents",
+        "category": "structured",
+        "row_count": 186074,
+        "total_bytes": 19931136,
+        "live_bytes": 18443896
+      },
+      {
+        "schema": "warehouse",
+        "table": "agg_icu_fluid_balance_daily",
+        "category": "structured",
+        "row_count": 75366,
+        "total_bytes": 17915904,
+        "live_bytes": 11214816
+      },
+      {
+        "schema": "staging",
+        "table": "stg_icustays",
+        "category": "structured",
+        "row_count": 94458,
+        "total_bytes": 16621568,
+        "live_bytes": 16041328
+      },
+      {
+        "schema": "staging",
+        "table": "stg_d_icd_diagnoses",
+        "category": "structured",
+        "row_count": 112107,
+        "total_bytes": 13312000,
+        "live_bytes": 12366773
+      },
+      {
+        "schema": "staging",
+        "table": "stg_d_icd_procedures",
+        "category": "structured",
+        "row_count": 86423,
+        "total_bytes": 10608640,
+        "live_bytes": 9875948
+      },
+      {
+        "schema": "staging",
+        "table": "stg_d_hcpcs",
+        "category": "structured",
+        "row_count": 89208,
+        "total_bytes": 6119424,
+        "live_bytes": 5416227
+      },
+      {
+        "schema": "warehouse",
+        "table": "dim_provider",
+        "category": "structured",
+        "row_count": 42244,
+        "total_bytes": 5955584,
+        "live_bytes": 5654456
+      },
+      {
+        "schema": "warehouse",
+        "table": "agg_admission_monthly",
+        "category": "structured",
+        "row_count": 10856,
+        "total_bytes": 2588672,
+        "live_bytes": 1664016
+      },
+      {
+        "schema": "warehouse",
+        "table": "dim_caregiver",
+        "category": "structured",
+        "row_count": 17984,
+        "total_bytes": 2572288,
+        "live_bytes": 2445184
+      },
+      {
+        "schema": "warehouse",
+        "table": "dim_chart_item",
+        "category": "structured",
+        "row_count": 4095,
+        "total_bytes": 1990656,
+        "live_bytes": 1079186
+      },
+      {
+        "schema": "staging",
+        "table": "stg_provider",
+        "category": "structured",
+        "row_count": 42244,
+        "total_bytes": 1572864,
+        "live_bytes": 1350524
+      },
+      {
+        "schema": "staging",
+        "table": "stg_caregiver",
+        "category": "structured",
+        "row_count": 17984,
+        "total_bytes": 688128,
+        "live_bytes": 608256
+      },
+      {
+        "schema": "warehouse",
+        "table": "dim_lab_item",
+        "category": "structured",
+        "row_count": 1650,
+        "total_bytes": 647168,
+        "live_bytes": 372540
+      },
+      {
+        "schema": "staging",
+        "table": "stg_d_items",
+        "category": "structured",
+        "row_count": 4095,
+        "total_bytes": 581632,
+        "live_bytes": 540393
+      },
+      {
+        "schema": "warehouse",
+        "table": "etl_process_log",
+        "category": "structured",
+        "row_count": 390,
+        "total_bytes": 196608,
+        "live_bytes": 174960
+      },
+      {
+        "schema": "staging",
+        "table": "stg_d_labitems",
+        "category": "structured",
+        "row_count": 1650,
+        "total_bytes": 163840,
+        "live_bytes": 147909
+      }
+    ],
+    "shared_raw_structured_csv_bytes": 10656208236,
+    "processed_structured": {
+      "data_warehouse": {
+        "physical_bytes": 9286430228,
+        "live_bytes": 8739262300,
+        "pg_database_size_bytes": 9297293476,
+        "table_count": 67,
+        "materializations": [
+          "raw CSV.gz in S3 landing (shared with lakehouse)",
+          "staging.stg_* -- full TRUNCATE + reload of every source table",
+          "warehouse.dim_/fact_/agg_* -- modeled copy"
+        ],
+        "note": "staging.stg_* + warehouse.dim_/fact_/agg_* (67 tables)"
+      },
+      "data_lakehouse": {
+        "physical_bytes": 4941384129,
+        "live_bytes": 2133287641,
+        "compacted_logical_estimate_bytes": 2133287641,
+        "table_count": 42,
+        "materializations": [
+          "raw CSV.gz in S3 (shared)",
+          "mimic4_db_raw staging = EXTERNAL tables over the raw CSVs (0 bytes)",
+          "Gold Iceberg (the only physical processed copy)"
+        ]
+      },
+      "ratios_lakehouse_over_warehouse": {
+        "physical_as_deployed": 0.53,
+        "live_snapshot": 0.24,
+        "compacted_estimate": 0.24
+      }
+    },
+    "redundancy_ratio_structured": {
+      "definition": "physical bytes materialized for the structured dataset / bytes of one clean modeled copy",
+      "data_warehouse": 2.0,
+      "data_warehouse_note": "two full materializations inside Postgres -- staging.stg_* (full TRUNCATE+reload of every source) + warehouse.* (modeled copy); the shared raw CSV in S3 is a third copy, excluded as it is common to both architectures",
+      "data_lakehouse_as_deployed": 2.32,
+      "data_lakehouse_as_deployed_note": "OPTIMIZE has run (live snapshot IS bin-packed); the residual physical/live gap is superseded data files that Athena VACUUM expired the snapshots for but did not delete -- reclaimable only by a Spark remove_orphan_files pass. Not architecture.",
+      "data_lakehouse_compacted": 1.0,
+      "data_lakehouse_compacted_note": "live snapshot = one clean modeled copy; gold is the only physical processed copy, the mimic4_db_raw staging layer is external tables (0 bytes)"
+    },
+    "unstructured_nlp": {
+      "data_warehouse_bytes": 0,
+      "data_warehouse_note": "not stored in Aurora -- no clinical notes, no NLP-derived tables, no note text",
+      "data_lakehouse_nlp_derived_physical_bytes": 26061950,
+      "data_lakehouse_nlp_derived_live_bytes": 8148588,
+      "data_lakehouse_note_text_bytes": 1921034145,
+      "finding": "Aurora holds 0 bytes -- a coverage gap, not a space win. The lakehouse holds the NLP-derived tables in ONE copy (shared catalog); a decoupled architecture that did NLP would hold each output in >= 2 (model store + warehouse load)."
+    }
+  },
+  "aurora_baseline": {
+    "source": "AWS RDS Aurora PostgreSQL data warehouse (mimic_datawarehouse_repo)",
+    "measured_utc": "2026-09-22",
+    "dataset": "fulldataset",
+    "database": "mimic4rds_full",
+    "structured": {
+      "physical_mib": 8856.23,
+      "live_mib": 8334.41,
+      "table_count": 67,
+      "content": "staging.stg_* + warehouse.dim_/fact_/agg_* (67 tables)",
+      "redundancy_multiple": 2.0,
+      "redundancy_basis": "two full materializations inside Postgres -- staging.stg_* (full TRUNCATE+reload of every source) + warehouse.* (modeled copy); the shared raw CSV in S3 is a third copy, excluded as it is common to both architectures",
+      "materializations": [
+        "raw CSV.gz in S3 landing (shared with lakehouse)",
+        "staging.stg_* -- full TRUNCATE + reload of every source table",
+        "warehouse.dim_/fact_/agg_* -- modeled copy"
+      ]
+    },
+    "infrastructure": {
+      "physical_mib": 0.0,
+      "content": "landing.* ETL merge scratch (0 tables; expect ~0 between runs)"
+    },
+    "unstructured_nlp": {
+      "physical_mib": 0.0,
+      "content": "not stored in Aurora -- no clinical notes, no NLP-derived tables, no note text"
+    },
+    "pg_database_size_mib": 8866.59,
+    "tables": [
+      {
+        "schema": "warehouse",
+        "table": "fact_input_event",
+        "category": "structured",
+        "row_count": 999887,
+        "total_bytes": 486088704,
+        "live_bytes": 468999248
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_prescription",
+        "category": "structured",
+        "row_count": 999892,
+        "total_bytes": 417521664,
+        "live_bytes": 404597912
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_ingredient_event",
+        "category": "structured",
+        "row_count": 1000020,
+        "total_bytes": 381861888,
+        "live_bytes": 368268816
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_microbiology_result",
+        "category": "structured",
+        "row_count": 1000166,
+        "total_bytes": 353583104,
+        "live_bytes": 340069248
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_procedure_event",
+        "category": "structured",
+        "row_count": 808693,
+        "total_bytes": 341917696,
+        "live_bytes": 329741944
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_pharmacy_order",
+        "category": "structured",
+        "row_count": 999850,
+        "total_bytes": 334217216,
+        "live_bytes": 320376952
+      },
+      {
+        "schema": "staging",
+        "table": "stg_inputevents",
+        "category": "structured",
+        "row_count": 1000139,
+        "total_bytes": 324124672,
+        "live_bytes": 313870160
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_datetime_event",
+        "category": "structured",
+        "row_count": 1000000,
+        "total_bytes": 307470336,
+        "live_bytes": 297380408
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_medication_administration_mini_detail",
+        "category": "structured",
+        "row_count": 999936,
+        "total_bytes": 295280640,
+        "live_bytes": 284705216
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_output_event",
+        "category": "structured",
+        "row_count": 1000000,
+        "total_bytes": 291782656,
+        "live_bytes": 279971584
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_medication_administration",
+        "category": "structured",
+        "row_count": 999986,
+        "total_bytes": 288825344,
+        "live_bytes": 276919048
+      },
+      {
+        "schema": "staging",
+        "table": "stg_microbiologyevents",
+        "category": "structured",
+        "row_count": 999668,
+        "total_bytes": 285417472,
+        "live_bytes": 273371331
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_lab_result",
+        "category": "structured",
+        "row_count": 1000000,
+        "total_bytes": 273620992,
+        "live_bytes": 262439504
+      },
+      {
+        "schema": "staging",
+        "table": "stg_pharmacy",
+        "category": "structured",
+        "row_count": 999953,
+        "total_bytes": 265986048,
+        "live_bytes": 255566100
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_chart_observation",
+        "category": "structured",
+        "row_count": 1008075,
+        "total_bytes": 240279552,
+        "live_bytes": 229415372
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_provider_order",
+        "category": "structured",
+        "row_count": 1000000,
+        "total_bytes": 239116288,
+        "live_bytes": 228190448
+      },
+      {
+        "schema": "staging",
+        "table": "stg_prescriptions",
+        "category": "structured",
+        "row_count": 1000000,
+        "total_bytes": 223928320,
+        "live_bytes": 212801069
+      },
+      {
+        "schema": "staging",
+        "table": "stg_procedureevents",
+        "category": "structured",
+        "row_count": 808706,
+        "total_bytes": 213434368,
+        "live_bytes": 206400016
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_transfer",
+        "category": "structured",
+        "row_count": 1000000,
+        "total_bytes": 212590592,
+        "live_bytes": 202387712
+      },
+      {
+        "schema": "staging",
+        "table": "stg_ingredientevents",
+        "category": "structured",
+        "row_count": 1000000,
+        "total_bytes": 212008960,
+        "live_bytes": 204640016
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_outpatient_measurement",
+        "category": "structured",
+        "row_count": 1000000,
+        "total_bytes": 194387968,
+        "live_bytes": 184901936
+      },
+      {
+        "schema": "staging",
+        "table": "stg_emar",
+        "category": "structured",
+        "row_count": 1000000,
+        "total_bytes": 192774144,
+        "live_bytes": 182556443
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_diagnosis",
+        "category": "structured",
+        "row_count": 999977,
+        "total_bytes": 186499072,
+        "live_bytes": 176196572
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_drg_assignment",
+        "category": "structured",
+        "row_count": 761856,
+        "total_bytes": 183476224,
+        "live_bytes": 175708328
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_admission",
+        "category": "structured",
+        "row_count": 546028,
+        "total_bytes": 174948352,
+        "live_bytes": 167823832
+      },
+      {
+        "schema": "staging",
+        "table": "stg_labevents",
+        "category": "structured",
+        "row_count": 1000000,
+        "total_bytes": 168624128,
+        "live_bytes": 160175503
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_procedure",
+        "category": "structured",
+        "row_count": 859650,
+        "total_bytes": 164020224,
+        "live_bytes": 156072200
+      },
+      {
+        "schema": "staging",
+        "table": "stg_datetimeevents",
+        "category": "structured",
+        "row_count": 1000000,
+        "total_bytes": 152010752,
+        "live_bytes": 146350904
+      },
+      {
+        "schema": "staging",
+        "table": "stg_chartevents",
+        "category": "structured",
+        "row_count": 1000000,
+        "total_bytes": 144097280,
+        "live_bytes": 138606608
+      },
+      {
+        "schema": "staging",
+        "table": "stg_poe",
+        "category": "structured",
+        "row_count": 1000000,
+        "total_bytes": 141950976,
+        "live_bytes": 132400062
+      },
+      {
+        "schema": "staging",
+        "table": "stg_emar_detail",
+        "category": "structured",
+        "row_count": 1000000,
+        "total_bytes": 128573440,
+        "live_bytes": 119889899
+      },
+      {
+        "schema": "staging",
+        "table": "stg_outputevents",
+        "category": "structured",
+        "row_count": 1000000,
+        "total_bytes": 126099456,
+        "live_bytes": 115065536
+      },
+      {
+        "schema": "warehouse",
+        "table": "dim_patient",
+        "category": "structured",
+        "row_count": 364627,
+        "total_bytes": 125091840,
+        "live_bytes": 68242954
+      },
+      {
+        "schema": "staging",
+        "table": "stg_admissions",
+        "category": "structured",
+        "row_count": 546028,
+        "total_bytes": 118587392,
+        "live_bytes": 114791008
+      },
+      {
+        "schema": "staging",
+        "table": "stg_transfers",
+        "category": "structured",
+        "row_count": 1000000,
+        "total_bytes": 112803840,
+        "live_bytes": 105887203
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_service_assignment",
+        "category": "structured",
+        "row_count": 593070,
+        "total_bytes": 112492544,
+        "live_bytes": 107161096
+      },
+      {
+        "schema": "staging",
+        "table": "stg_poe_detail",
+        "category": "structured",
+        "row_count": 1000000,
+        "total_bytes": 89473024,
+        "live_bytes": 80037532
+      },
+      {
+        "schema": "staging",
+        "table": "stg_drgcodes",
+        "category": "structured",
+        "row_count": 761856,
+        "total_bytes": 87007232,
+        "live_bytes": 81803732
+      },
+      {
+        "schema": "staging",
+        "table": "stg_omr",
+        "category": "structured",
+        "row_count": 1000000,
+        "total_bytes": 84533248,
+        "live_bytes": 75437623
+      },
+      {
+        "schema": "staging",
+        "table": "stg_procedures_icd",
+        "category": "structured",
+        "row_count": 859655,
+        "total_bytes": 69042176,
+        "live_bytes": 65076072
+      },
+      {
+        "schema": "staging",
+        "table": "stg_diagnoses_icd",
+        "category": "structured",
+        "row_count": 1000000,
+        "total_bytes": 68329472,
+        "live_bytes": 64057344
+      },
+      {
+        "schema": "warehouse",
+        "table": "agg_admission_daily",
+        "category": "structured",
+        "row_count": 244500,
+        "total_bytes": 56737792,
+        "live_bytes": 36093840
+      },
+      {
+        "schema": "warehouse",
+        "table": "dim_diagnosis",
+        "category": "structured",
+        "row_count": 112107,
+        "total_bytes": 50692096,
+        "live_bytes": 27813122
+      },
+      {
+        "schema": "staging",
+        "table": "stg_services",
+        "category": "structured",
+        "row_count": 593071,
+        "total_bytes": 42934272,
+        "live_bytes": 38592997
+      },
+      {
+        "schema": "warehouse",
+        "table": "dim_procedure",
+        "category": "structured",
+        "row_count": 86423,
+        "total_bytes": 39624704,
+        "live_bytes": 21597762
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_hcpcs_event",
+        "category": "structured",
+        "row_count": 186074,
+        "total_bytes": 39370752,
+        "live_bytes": 37506832
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_provider_order_mini_detail",
+        "category": "structured",
+        "row_count": 159231,
+        "total_bytes": 35209216,
+        "live_bytes": 33620724
+      },
+      {
+        "schema": "warehouse",
+        "table": "dim_hcpcs",
+        "category": "structured",
+        "row_count": 89208,
+        "total_bytes": 32006144,
+        "live_bytes": 17383232
+      },
+      {
+        "schema": "staging",
+        "table": "stg_patients",
+        "category": "structured",
+        "row_count": 364627,
+        "total_bytes": 28262400,
+        "live_bytes": 25256907
+      },
+      {
+        "schema": "warehouse",
+        "table": "fact_icu_stay_accumulating",
+        "category": "structured",
+        "row_count": 94458,
+        "total_bytes": 26116096,
+        "live_bytes": 24996072
+      },
+      {
+        "schema": "warehouse",
+        "table": "dim_date",
+        "category": "structured",
+        "row_count": 47846,
+        "total_bytes": 20127744,
+        "live_bytes": 10654680
+      },
+      {
+        "schema": "staging",
+        "table": "stg_hcpcsevents",
+        "category": "structured",
+        "row_count": 186074,
+        "total_bytes": 19931136,
+        "live_bytes": 18443896
+      },
+      {
+        "schema": "warehouse",
+        "table": "agg_icu_fluid_balance_daily",
+        "category": "structured",
+        "row_count": 75366,
+        "total_bytes": 17915904,
+        "live_bytes": 11214816
+      },
+      {
+        "schema": "staging",
+        "table": "stg_icustays",
+        "category": "structured",
+        "row_count": 94458,
+        "total_bytes": 16621568,
+        "live_bytes": 16041328
+      },
+      {
+        "schema": "staging",
+        "table": "stg_d_icd_diagnoses",
+        "category": "structured",
+        "row_count": 112107,
+        "total_bytes": 13312000,
+        "live_bytes": 12366773
+      },
+      {
+        "schema": "staging",
+        "table": "stg_d_icd_procedures",
+        "category": "structured",
+        "row_count": 86423,
+        "total_bytes": 10608640,
+        "live_bytes": 9875948
+      },
+      {
+        "schema": "staging",
+        "table": "stg_d_hcpcs",
+        "category": "structured",
+        "row_count": 89208,
+        "total_bytes": 6119424,
+        "live_bytes": 5416227
+      },
+      {
+        "schema": "warehouse",
+        "table": "dim_provider",
+        "category": "structured",
+        "row_count": 42244,
+        "total_bytes": 5955584,
+        "live_bytes": 5654456
+      },
+      {
+        "schema": "warehouse",
+        "table": "agg_admission_monthly",
+        "category": "structured",
+        "row_count": 10856,
+        "total_bytes": 2588672,
+        "live_bytes": 1664016
+      },
+      {
+        "schema": "warehouse",
+        "table": "dim_caregiver",
+        "category": "structured",
+        "row_count": 17984,
+        "total_bytes": 2572288,
+        "live_bytes": 2445184
+      },
+      {
+        "schema": "warehouse",
+        "table": "dim_chart_item",
+        "category": "structured",
+        "row_count": 4095,
+        "total_bytes": 1990656,
+        "live_bytes": 1079186
+      },
+      {
+        "schema": "staging",
+        "table": "stg_provider",
+        "category": "structured",
+        "row_count": 42244,
+        "total_bytes": 1572864,
+        "live_bytes": 1350524
+      },
+      {
+        "schema": "staging",
+        "table": "stg_caregiver",
+        "category": "structured",
+        "row_count": 17984,
+        "total_bytes": 688128,
+        "live_bytes": 608256
+      },
+      {
+        "schema": "warehouse",
+        "table": "dim_lab_item",
+        "category": "structured",
+        "row_count": 1650,
+        "total_bytes": 647168,
+        "live_bytes": 372540
+      },
+      {
+        "schema": "staging",
+        "table": "stg_d_items",
+        "category": "structured",
+        "row_count": 4095,
+        "total_bytes": 581632,
+        "live_bytes": 540393
+      },
+      {
+        "schema": "warehouse",
+        "table": "etl_process_log",
+        "category": "structured",
+        "row_count": 390,
+        "total_bytes": 196608,
+        "live_bytes": 174960
+      },
+      {
+        "schema": "staging",
+        "table": "stg_d_labitems",
+        "category": "structured",
+        "row_count": 1650,
+        "total_bytes": 163840,
+        "live_bytes": 147909
+      }
+    ]
+  },
+  "raw_bucket": {
+    "total_bytes": 15763593662,
+    "note_text_gz_bytes": 1921034145,
+    "note_text_gz_pct": 12.1865,
+    "structured_csv_bytes": 10656208236,
+    "structured_csv_pct": 67.6001,
+    "note_parquet_bytes": 3186351281
+  },
+  "gold_bucket": {
+    "physical_bytes": 4967446079,
+    "physical_objects": 67242,
+    "data_bytes": 4878379818,
+    "iceberg_metadata_bytes": 89066261,
+    "stray_bytes": 0,
+    "stray_objects": 0,
+    "live_snapshot_bytes": 2141436229,
+    "live_snapshot_files": 4438,
+    "physical_to_live_ratio": 2.32,
+    "avg_live_file_bytes": 482522,
+    "small_file_tables": [
+      {
+        "table": "etl_control",
+        "avg_live_file_bytes": 1169,
+        "live_files": 7,
+        "live_bytes": 8188
+      },
+      {
+        "table": "agg_admission_monthly",
+        "avg_live_file_bytes": 2374,
+        "live_files": 1262,
+        "live_bytes": 2996503
+      },
+      {
+        "table": "obt_icu_stay_features",
+        "avg_live_file_bytes": 12525,
+        "live_files": 1230,
+        "live_bytes": 15406287
+      },
+      {
+        "table": "agg_admission_daily",
+        "avg_live_file_bytes": 14049,
+        "live_files": 64,
+        "live_bytes": 899184
+      },
+      {
+        "table": "dim_lab_item",
+        "avg_live_file_bytes": 15739,
+        "live_files": 1,
+        "live_bytes": 15739
+      },
+      {
+        "table": "etl_process_log",
+        "avg_live_file_bytes": 18305,
+        "live_files": 3,
+        "live_bytes": 54917
+      },
+      {
+        "table": "dim_caregiver",
+        "avg_live_file_bytes": 22492,
+        "live_files": 1,
+        "live_bytes": 22492
+      },
+      {
+        "table": "agg_icu_fluid_balance_daily",
+        "avg_live_file_bytes": 22796,
+        "live_files": 64,
+        "live_bytes": 1458959
+      },
+      {
+        "table": "fact_discharge_note_nlp",
+        "avg_live_file_bytes": 26053,
+        "live_files": 64,
+        "live_bytes": 1667421
+      },
+      {
+        "table": "obt_admission_features",
+        "avg_live_file_bytes": 30821,
+        "live_files": 1259,
+        "live_bytes": 38803836
+      },
+      {
+        "table": "fact_radiology_note_nlp",
+        "avg_live_file_bytes": 50634,
+        "live_files": 128,
+        "live_bytes": 6481167
+      },
+      {
+        "table": "dim_chart_item",
+        "avg_live_file_bytes": 84084,
+        "live_files": 1,
+        "live_bytes": 84084
+      },
+      {
+        "table": "dim_provider",
+        "avg_live_file_bytes": 143162,
+        "live_files": 1,
+        "live_bytes": 143162
+      },
+      {
+        "table": "dim_hcpcs",
+        "avg_live_file_bytes": 358904,
+        "live_files": 1,
+        "live_bytes": 358904
+      },
+      {
+        "table": "fact_diagnosis",
+        "avg_live_file_bytes": 384278,
+        "live_files": 17,
+        "live_bytes": 6532737
+      },
+      {
+        "table": "dim_date",
+        "avg_live_file_bytes": 426246,
+        "live_files": 1,
+        "live_bytes": 426246
+      },
+      {
+        "table": "fact_medication_administration_mini_detail",
+        "avg_live_file_bytes": 508683,
+        "live_files": 32,
+        "live_bytes": 16277887
+      },
+      {
+        "table": "fact_hcpcs_event",
+        "avg_live_file_bytes": 588018,
+        "live_files": 5,
+        "live_bytes": 2940092
+      },
+      {
+        "table": "fact_lab_result",
+        "avg_live_file_bytes": 600720,
+        "live_files": 65,
+        "live_bytes": 39046847
+      },
+      {
+        "table": "fact_icu_stay_accumulating",
+        "avg_live_file_bytes": 721057,
+        "live_files": 5,
+        "live_bytes": 3605286
+      },
+      {
+        "table": "fact_provider_order_mini_detail",
+        "avg_live_file_bytes": 750192,
+        "live_files": 16,
+        "live_bytes": 12003080
+      },
+      {
+        "table": "fact_drg_assignment",
+        "avg_live_file_bytes": 905898,
+        "live_files": 9,
+        "live_bytes": 8153083
+      },
+      {
+        "table": "fact_outpatient_measurement",
+        "avg_live_file_bytes": 973903,
+        "live_files": 9,
+        "live_bytes": 8765132
+      }
+    ]
+  },
+  "ai_inference_layer": {
+    "tables": [
+      "fact_clinician_note_nlp_v",
+      "fact_discharge_note_nlp",
+      "fact_radiology_note_nlp"
+    ],
+    "physical_bytes": 26061950,
+    "live_bytes": 8148588,
+    "pct_of_gold_physical": 0.5247,
+    "pct_of_raw_bucket": 0.1653,
+    "pct_of_total_lakehouse": 0.1224
+  },
+  "nlp_debug_bucket_bytes": 566286615,
+  "scripts_bucket_bytes": 266773,
+  "total_lakehouse_physical_bytes": 21297593129,
+  "derived": {
+    "structured_vs_unstructured": {
+      "structured": {
+        "raw_csv_bytes": 10656208236,
+        "gold_physical_bytes": 4941384129,
+        "gold_live_bytes": 2133287641,
+        "gold_table_count": 42,
+        "physical_bytes": 15597592365,
+        "live_bytes": 12789495877,
+        "physical_share_pct": 73.2364,
+        "rds_warehouse_equivalent": true
+      },
+      "unstructured_nlp": {
+        "note_text_bytes": 1921034145,
+        "note_parquet_bytes": 3186351281,
+        "nlp_gold_physical_bytes": 26061950,
+        "nlp_gold_live_bytes": 8148588,
+        "nlp_gold_table_count": 3,
+        "nlp_debug_bytes": 566286615,
+        "physical_bytes": 5699733991,
+        "live_bytes": 5681820629,
+        "physical_share_pct": 26.7623,
+        "rds_warehouse_equivalent": false
+      },
+      "infrastructure": {
+        "physical_bytes": 266773,
+        "physical_share_pct": 0.0013,
+        "note": "Glue job scripts + stray Athena query results -- neither modality"
+      },
+      "grand_total_physical_bytes": 21297593129,
+      "p3_comparable_bytes": {
+        "structured_physical": 15597592365,
+        "structured_live": 12789495877,
+        "note": "compare structured_live (or a post-OPTIMIZE re-measure) against the Aurora warehouse's pg_total_relation_size over hosp/icu/staging/warehouse plus its raw S3 landing copy"
+      },
+      "lakehouse_only_bytes": 5699733991
+    },
+    "raw_bucket": {
+      "total_bytes": 15763593662,
+      "note_text_gz_bytes": 1921034145,
+      "note_text_gz_pct": 12.1865,
+      "structured_csv_bytes": 10656208236,
+      "structured_csv_pct": 67.6001,
+      "note_parquet_bytes": 3186351281
+    },
+    "gold_bucket": {
+      "physical_bytes": 4967446079,
+      "physical_objects": 67242,
+      "data_bytes": 4878379818,
+      "iceberg_metadata_bytes": 89066261,
+      "stray_bytes": 0,
+      "stray_objects": 0,
+      "live_snapshot_bytes": 2141436229,
+      "live_snapshot_files": 4438,
+      "physical_to_live_ratio": 2.32,
+      "avg_live_file_bytes": 482522,
+      "small_file_tables": [
+        {
+          "table": "etl_control",
+          "avg_live_file_bytes": 1169,
+          "live_files": 7,
+          "live_bytes": 8188
+        },
+        {
+          "table": "agg_admission_monthly",
+          "avg_live_file_bytes": 2374,
+          "live_files": 1262,
+          "live_bytes": 2996503
+        },
+        {
+          "table": "obt_icu_stay_features",
+          "avg_live_file_bytes": 12525,
+          "live_files": 1230,
+          "live_bytes": 15406287
+        },
+        {
+          "table": "agg_admission_daily",
+          "avg_live_file_bytes": 14049,
+          "live_files": 64,
+          "live_bytes": 899184
+        },
+        {
+          "table": "dim_lab_item",
+          "avg_live_file_bytes": 15739,
+          "live_files": 1,
+          "live_bytes": 15739
+        },
+        {
+          "table": "etl_process_log",
+          "avg_live_file_bytes": 18305,
+          "live_files": 3,
+          "live_bytes": 54917
+        },
+        {
+          "table": "dim_caregiver",
+          "avg_live_file_bytes": 22492,
+          "live_files": 1,
+          "live_bytes": 22492
+        },
+        {
+          "table": "agg_icu_fluid_balance_daily",
+          "avg_live_file_bytes": 22796,
+          "live_files": 64,
+          "live_bytes": 1458959
+        },
+        {
+          "table": "fact_discharge_note_nlp",
+          "avg_live_file_bytes": 26053,
+          "live_files": 64,
+          "live_bytes": 1667421
+        },
+        {
+          "table": "obt_admission_features",
+          "avg_live_file_bytes": 30821,
+          "live_files": 1259,
+          "live_bytes": 38803836
+        },
+        {
+          "table": "fact_radiology_note_nlp",
+          "avg_live_file_bytes": 50634,
+          "live_files": 128,
+          "live_bytes": 6481167
+        },
+        {
+          "table": "dim_chart_item",
+          "avg_live_file_bytes": 84084,
+          "live_files": 1,
+          "live_bytes": 84084
+        },
+        {
+          "table": "dim_provider",
+          "avg_live_file_bytes": 143162,
+          "live_files": 1,
+          "live_bytes": 143162
+        },
+        {
+          "table": "dim_hcpcs",
+          "avg_live_file_bytes": 358904,
+          "live_files": 1,
+          "live_bytes": 358904
+        },
+        {
+          "table": "fact_diagnosis",
+          "avg_live_file_bytes": 384278,
+          "live_files": 17,
+          "live_bytes": 6532737
+        },
+        {
+          "table": "dim_date",
+          "avg_live_file_bytes": 426246,
+          "live_files": 1,
+          "live_bytes": 426246
+        },
+        {
+          "table": "fact_medication_administration_mini_detail",
+          "avg_live_file_bytes": 508683,
+          "live_files": 32,
+          "live_bytes": 16277887
+        },
+        {
+          "table": "fact_hcpcs_event",
+          "avg_live_file_bytes": 588018,
+          "live_files": 5,
+          "live_bytes": 2940092
+        },
+        {
+          "table": "fact_lab_result",
+          "avg_live_file_bytes": 600720,
+          "live_files": 65,
+          "live_bytes": 39046847
+        },
+        {
+          "table": "fact_icu_stay_accumulating",
+          "avg_live_file_bytes": 721057,
+          "live_files": 5,
+          "live_bytes": 3605286
+        },
+        {
+          "table": "fact_provider_order_mini_detail",
+          "avg_live_file_bytes": 750192,
+          "live_files": 16,
+          "live_bytes": 12003080
+        },
+        {
+          "table": "fact_drg_assignment",
+          "avg_live_file_bytes": 905898,
+          "live_files": 9,
+          "live_bytes": 8153083
+        },
+        {
+          "table": "fact_outpatient_measurement",
+          "avg_live_file_bytes": 973903,
+          "live_files": 9,
+          "live_bytes": 8765132
+        }
+      ]
+    },
+    "ai_inference_layer": {
+      "tables": [
+        "fact_clinician_note_nlp_v",
+        "fact_discharge_note_nlp",
+        "fact_radiology_note_nlp"
+      ],
+      "physical_bytes": 26061950,
+      "live_bytes": 8148588,
+      "pct_of_gold_physical": 0.5247,
+      "pct_of_raw_bucket": 0.1653,
+      "pct_of_total_lakehouse": 0.1224
+    },
+    "nlp_debug_bucket_bytes": 566286615,
+    "scripts_bucket_bytes": 266773,
+    "total_lakehouse_physical_bytes": 21297593129
+  },
+  "raw_detail": {
+    "total_bytes": 15763593662,
+    "total_objects": 36,
+    "by_class": {
+      "note_parquet": {
+        "bytes": 3186351281,
+        "objects": 2,
+        "prefixes": [
+          "discharge_note_raw",
+          "radiology_note_raw"
+        ],
+        "pct_of_bucket": 20.2134,
+        "category": "unstructured_nlp"
+      },
+      "note_text_gz": {
+        "bytes": 1921034145,
+        "objects": 2,
+        "prefixes": [
+          "discharge_raw",
+          "radiology_raw"
+        ],
+        "pct_of_bucket": 12.1865,
+        "category": "unstructured_nlp"
+      },
+      "structured_csv": {
+        "bytes": 10656208236,
+        "objects": 32,
+        "prefixes": [
+          "admissions_raw",
+          "caregiver_raw",
+          "chartevents_raw",
+          "d_hcpcs_raw",
+          "d_icd_diagnoses_raw",
+          "d_icd_procedures_raw",
+          "d_items_raw",
+          "d_labitems_raw",
+          "datetimeevents_raw",
+          "demo_subject_raw",
+          "diagnoses_icd_raw",
+          "drgcodes_raw",
+          "emar_detail_raw",
+          "emar_raw",
+          "hcpcsevents_raw",
+          "icustays_raw",
+          "ingredientevents_raw",
+          "inputevents_raw",
+          "labevents_raw",
+          "microbiologyevents_raw",
+          "omr_raw",
+          "outputevents_raw",
+          "patients_raw",
+          "pharmacy_raw",
+          "poe_detail_raw",
+          "poe_raw",
+          "prescriptions_raw",
+          "procedureevents_raw",
+          "procedures_icd_raw",
+          "provider_raw",
+          "services_raw",
+          "transfers_raw"
+        ],
+        "pct_of_bucket": 67.6001,
+        "category": "structured"
+      }
+    },
+    "by_prefix": {
+      "chartevents_raw": {
+        "bytes": 3502392765,
+        "objects": 1
+      },
+      "labevents_raw": {
+        "bytes": 2592909134,
+        "objects": 1
+      },
+      "discharge_note_raw": {
+        "bytes": 1875816923,
+        "objects": 1
+      },
+      "radiology_note_raw": {
+        "bytes": 1310534358,
+        "objects": 1
+      },
+      "discharge_raw": {
+        "bytes": 1139203149,
+        "objects": 1
+      },
+      "emar_raw": {
+        "bytes": 811305629,
+        "objects": 1
+      },
+      "radiology_raw": {
+        "bytes": 781830996,
+        "objects": 1
+      },
+      "emar_detail_raw": {
+        "bytes": 748158322,
+        "objects": 1
+      },
+      "poe_raw": {
+        "bytes": 666594177,
+        "objects": 1
+      },
+      "prescriptions_raw": {
+        "bytes": 606298611,
+        "objects": 1
+      },
+      "pharmacy_raw": {
+        "bytes": 525708076,
+        "objects": 1
+      },
+      "inputevents_raw": {
+        "bytes": 401088206,
+        "objects": 1
+      },
+      "ingredientevents_raw": {
+        "bytes": 311642048,
+        "objects": 1
+      },
+      "microbiologyevents_raw": {
+        "bytes": 117644075,
+        "objects": 1
+      },
+      "datetimeevents_raw": {
+        "bytes": 63481196,
+        "objects": 1
+      },
+      "poe_detail_raw": {
+        "bytes": 55267894,
+        "objects": 1
+      },
+      "outputevents_raw": {
+        "bytes": 49307639,
+        "objects": 1
+      },
+      "transfers_raw": {
+        "bytes": 46185771,
+        "objects": 1
+      },
+      "omr_raw": {
+        "bytes": 44069351,
+        "objects": 1
+      },
+      "diagnoses_icd_raw": {
+        "bytes": 33564802,
+        "objects": 1
+      },
+      "procedureevents_raw": {
+        "bytes": 24096834,
+        "objects": 1
+      },
+      "admissions_raw": {
+        "bytes": 19928140,
+        "objects": 1
+      },
+      "drgcodes_raw": {
+        "bytes": 9743908,
+        "objects": 1
+      },
+      "services_raw": {
+        "bytes": 8569241,
+        "objects": 1
+      },
+      "procedures_icd_raw": {
+        "bytes": 7777324,
+        "objects": 1
+      },
+      "icustays_raw": {
+        "bytes": 3342355,
+        "objects": 1
+      },
+      "patients_raw": {
+        "bytes": 2835586,
+        "objects": 1
+      },
+      "hcpcsevents_raw": {
+        "bytes": 2162335,
+        "objects": 1
+      },
+      "d_icd_diagnoses_raw": {
+        "bytes": 876360,
+        "objects": 1
+      },
+      "d_icd_procedures_raw": {
+        "bytes": 589186,
+        "objects": 1
+      },
+      "d_hcpcs_raw": {
+        "bytes": 427554,
+        "objects": 1
+      },
+      "provider_raw": {
+        "bytes": 127330,
+        "objects": 1
+      },
+      "d_items_raw": {
+        "bytes": 58741,
+        "objects": 1
+      },
+      "caregiver_raw": {
+        "bytes": 41566,
+        "objects": 1
+      },
+      "d_labitems_raw": {
+        "bytes": 13169,
+        "objects": 1
+      },
+      "demo_subject_raw": {
+        "bytes": 911,
+        "objects": 1
+      }
+    }
+  },
+  "gold_detail": {
+    "prefix": "mimic_bus",
+    "total_physical_bytes": 4967446079,
+    "total_physical_objects": 67242,
+    "total_data_bytes": 4878379818,
+    "total_metadata_bytes": 89066261,
+    "stray_bytes": 0,
+    "stray_objects": 0,
+    "tables": {
+      "fact_discharge_note": {
+        "data_bytes": 2210173727,
+        "data_objects": 20,
+        "meta_bytes": 51323,
+        "meta_objects": 10,
+        "class": "fact",
+        "category": "structured",
+        "physical_bytes": 2210225050,
+        "physical_objects": 30,
+        "live_bytes": 1102169141,
+        "live_files": 4,
+        "live_records": 331793,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 2.01,
+        "avg_live_file_bytes": 275542285
+      },
+      "fact_radiology_note": {
+        "data_bytes": 680955105,
+        "data_objects": 40,
+        "meta_bytes": 54727,
+        "meta_objects": 10,
+        "class": "fact",
+        "category": "structured",
+        "physical_bytes": 681009832,
+        "physical_objects": 50,
+        "live_bytes": 341502669,
+        "live_files": 8,
+        "live_records": 309670,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 1.99,
+        "avg_live_file_bytes": 42687833
+      },
+      "fact_lab_result": {
+        "data_bytes": 194575403,
+        "data_objects": 12865,
+        "meta_bytes": 2782312,
+        "meta_objects": 10,
+        "class": "fact",
+        "category": "structured",
+        "physical_bytes": 197357715,
+        "physical_objects": 12875,
+        "live_bytes": 39046847,
+        "live_files": 65,
+        "live_records": 1000000,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 5.05,
+        "avg_live_file_bytes": 600720
+      },
+      "fact_pharmacy_order": {
+        "data_bytes": 167624325,
+        "data_objects": 3217,
+        "meta_bytes": 1147044,
+        "meta_objects": 10,
+        "class": "fact",
+        "category": "structured",
+        "physical_bytes": 168771369,
+        "physical_objects": 3227,
+        "live_bytes": 60651556,
+        "live_files": 17,
+        "live_records": 1000000,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 2.78,
+        "avg_live_file_bytes": 3567738
+      },
+      "fact_medication_administration": {
+        "data_bytes": 158883699,
+        "data_objects": 6432,
+        "meta_bytes": 1501922,
+        "meta_objects": 10,
+        "class": "fact",
+        "category": "structured",
+        "physical_bytes": 160385621,
+        "physical_objects": 6442,
+        "live_bytes": 52072494,
+        "live_files": 32,
+        "live_records": 1000000,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 3.08,
+        "avg_live_file_bytes": 1627265
+      },
+      "fact_input_event": {
+        "data_bytes": 151622053,
+        "data_objects": 1609,
+        "meta_bytes": 589531,
+        "meta_objects": 10,
+        "class": "fact",
+        "category": "structured",
+        "physical_bytes": 152211584,
+        "physical_objects": 1619,
+        "live_bytes": 60097159,
+        "live_files": 9,
+        "live_records": 1000000,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 2.53,
+        "avg_live_file_bytes": 6677462
+      },
+      "fact_prescription": {
+        "data_bytes": 146987124,
+        "data_objects": 3217,
+        "meta_bytes": 919117,
+        "meta_objects": 10,
+        "class": "fact",
+        "category": "structured",
+        "physical_bytes": 147906241,
+        "physical_objects": 3227,
+        "live_bytes": 49538602,
+        "live_files": 17,
+        "live_records": 1000000,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 2.99,
+        "avg_live_file_bytes": 2914035
+      },
+      "fact_ingredient_event": {
+        "data_bytes": 134022437,
+        "data_objects": 3217,
+        "meta_bytes": 862135,
+        "meta_objects": 10,
+        "class": "fact",
+        "category": "structured",
+        "physical_bytes": 134884572,
+        "physical_objects": 3227,
+        "live_bytes": 43705208,
+        "live_files": 17,
+        "live_records": 1000000,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 3.09,
+        "avg_live_file_bytes": 2570894
+      },
+      "fact_medication_administration_mini_detail": {
+        "data_bytes": 125533138,
+        "data_objects": 6432,
+        "meta_bytes": 1753758,
+        "meta_objects": 10,
+        "class": "fact",
+        "category": "structured",
+        "physical_bytes": 127286896,
+        "physical_objects": 6442,
+        "live_bytes": 16277887,
+        "live_files": 32,
+        "live_records": 1000000,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 7.82,
+        "avg_live_file_bytes": 508683
+      },
+      "fact_microbiology_result": {
+        "data_bytes": 125879420,
+        "data_objects": 1609,
+        "meta_bytes": 604172,
+        "meta_objects": 10,
+        "class": "fact",
+        "category": "structured",
+        "physical_bytes": 126483592,
+        "physical_objects": 1619,
+        "live_bytes": 44884049,
+        "live_files": 9,
+        "live_records": 1000000,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 2.82,
+        "avg_live_file_bytes": 4987116
+      },
+      "fact_procedure_event": {
+        "data_bytes": 101468886,
+        "data_objects": 1005,
+        "meta_bytes": 371904,
+        "meta_objects": 10,
+        "class": "fact",
+        "category": "structured",
+        "physical_bytes": 101840790,
+        "physical_objects": 1015,
+        "live_bytes": 42460297,
+        "live_files": 5,
+        "live_records": 808707,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 2.4,
+        "avg_live_file_bytes": 8492059
+      },
+      "fact_provider_order": {
+        "data_bytes": 79023748,
+        "data_objects": 3216,
+        "meta_bytes": 558269,
+        "meta_objects": 10,
+        "class": "fact",
+        "category": "structured",
+        "physical_bytes": 79582017,
+        "physical_objects": 3226,
+        "live_bytes": 27023903,
+        "live_files": 16,
+        "live_records": 1000000,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 2.94,
+        "avg_live_file_bytes": 1688993
+      },
+      "fact_transfer": {
+        "data_bytes": 73182556,
+        "data_objects": 1609,
+        "meta_bytes": 318675,
+        "meta_objects": 10,
+        "class": "fact",
+        "category": "structured",
+        "physical_bytes": 73501231,
+        "physical_objects": 1619,
+        "live_bytes": 32304146,
+        "live_files": 9,
+        "live_records": 1000000,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 2.28,
+        "avg_live_file_bytes": 3589349
+      },
+      "fact_output_event": {
+        "data_bytes": 69031948,
+        "data_objects": 1609,
+        "meta_bytes": 307357,
+        "meta_objects": 10,
+        "class": "fact",
+        "category": "structured",
+        "physical_bytes": 69339305,
+        "physical_objects": 1619,
+        "live_bytes": 24357006,
+        "live_files": 9,
+        "live_records": 1000000,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 2.85,
+        "avg_live_file_bytes": 2706334
+      },
+      "fact_datetime_event": {
+        "data_bytes": 68090542,
+        "data_objects": 1609,
+        "meta_bytes": 327060,
+        "meta_objects": 10,
+        "class": "fact",
+        "category": "structured",
+        "physical_bytes": 68417602,
+        "physical_objects": 1619,
+        "live_bytes": 19879538,
+        "live_files": 9,
+        "live_records": 1000000,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 3.44,
+        "avg_live_file_bytes": 2208837
+      },
+      "etl_process_log": {
+        "data_bytes": 2142794,
+        "data_objects": 722,
+        "meta_bytes": 60663452,
+        "meta_objects": 212,
+        "class": "control",
+        "category": "structured",
+        "physical_bytes": 62806246,
+        "physical_objects": 934,
+        "live_bytes": 54917,
+        "live_files": 3,
+        "live_records": 677,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 1143.66,
+        "avg_live_file_bytes": 18305
+      },
+      "fact_admission": {
+        "data_bytes": 54456827,
+        "data_objects": 21,
+        "meta_bytes": 73533,
+        "meta_objects": 10,
+        "class": "fact",
+        "category": "structured",
+        "physical_bytes": 54530360,
+        "physical_objects": 31,
+        "live_bytes": 26817907,
+        "live_files": 5,
+        "live_records": 546029,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 2.03,
+        "avg_live_file_bytes": 5363581
+      },
+      "fact_chart_observation": {
+        "data_bytes": 53803065,
+        "data_objects": 1609,
+        "meta_bytes": 336686,
+        "meta_objects": 10,
+        "class": "fact",
+        "category": "structured",
+        "physical_bytes": 54139751,
+        "physical_objects": 1619,
+        "live_bytes": 13513933,
+        "live_files": 9,
+        "live_records": 1000000,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 4.01,
+        "avg_live_file_bytes": 1501548
+      },
+      "obt_admission_features": {
+        "data_bytes": 38803836,
+        "data_objects": 1259,
+        "meta_bytes": 605363,
+        "meta_objects": 7,
+        "class": "obt",
+        "category": "structured",
+        "physical_bytes": 39409199,
+        "physical_objects": 1266,
+        "live_bytes": 38803836,
+        "live_files": 1259,
+        "live_records": 546031,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 1.02,
+        "avg_live_file_bytes": 30821
+      },
+      "fact_provider_order_mini_detail": {
+        "data_bytes": 36189097,
+        "data_objects": 3216,
+        "meta_bytes": 317753,
+        "meta_objects": 10,
+        "class": "fact",
+        "category": "structured",
+        "physical_bytes": 36506850,
+        "physical_objects": 3226,
+        "live_bytes": 12003080,
+        "live_files": 16,
+        "live_records": 1000000,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 3.04,
+        "avg_live_file_bytes": 750192
+      },
+      "fact_drg_assignment": {
+        "data_bytes": 28715198,
+        "data_objects": 1609,
+        "meta_bytes": 187963,
+        "meta_objects": 10,
+        "class": "fact",
+        "category": "structured",
+        "physical_bytes": 28903161,
+        "physical_objects": 1619,
+        "live_bytes": 8153083,
+        "live_files": 9,
+        "live_records": 761857,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 3.55,
+        "avg_live_file_bytes": 905898
+      },
+      "fact_procedure": {
+        "data_bytes": 28560059,
+        "data_objects": 805,
+        "meta_bytes": 126488,
+        "meta_objects": 10,
+        "class": "fact",
+        "category": "structured",
+        "physical_bytes": 28686547,
+        "physical_objects": 815,
+        "live_bytes": 11324300,
+        "live_files": 5,
+        "live_records": 859656,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 2.53,
+        "avg_live_file_bytes": 2264860
+      },
+      "fact_outpatient_measurement": {
+        "data_bytes": 27839079,
+        "data_objects": 1609,
+        "meta_bytes": 185421,
+        "meta_objects": 10,
+        "class": "fact",
+        "category": "structured",
+        "physical_bytes": 28024500,
+        "physical_objects": 1619,
+        "live_bytes": 8765132,
+        "live_files": 9,
+        "live_records": 1000000,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 3.2,
+        "avg_live_file_bytes": 973903
+      },
+      "fact_diagnosis": {
+        "data_bytes": 27406099,
+        "data_objects": 3217,
+        "meta_bytes": 263358,
+        "meta_objects": 10,
+        "class": "fact",
+        "category": "structured",
+        "physical_bytes": 27669457,
+        "physical_objects": 3227,
+        "live_bytes": 6532737,
+        "live_files": 17,
+        "live_records": 1000000,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 4.24,
+        "avg_live_file_bytes": 384278
+      },
+      "fact_service_assignment": {
+        "data_bytes": 24173459,
+        "data_objects": 805,
+        "meta_bytes": 127846,
+        "meta_objects": 10,
+        "class": "fact",
+        "category": "structured",
+        "physical_bytes": 24301305,
+        "physical_objects": 815,
+        "live_bytes": 10844144,
+        "live_files": 5,
+        "live_records": 593072,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 2.24,
+        "avg_live_file_bytes": 2168828
+      },
+      "fact_radiology_note_nlp": {
+        "data_bytes": 6481167,
+        "data_objects": 128,
+        "meta_bytes": 9573161,
+        "meta_objects": 132,
+        "class": "ai_nlp",
+        "category": "unstructured_nlp",
+        "physical_bytes": 16054328,
+        "physical_objects": 260,
+        "live_bytes": 6481167,
+        "live_files": 128,
+        "live_records": 2711,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 2.48,
+        "avg_live_file_bytes": 50634
+      },
+      "obt_icu_stay_features": {
+        "data_bytes": 15406287,
+        "data_objects": 1230,
+        "meta_bytes": 376919,
+        "meta_objects": 7,
+        "class": "obt",
+        "category": "structured",
+        "physical_bytes": 15783206,
+        "physical_objects": 1237,
+        "live_bytes": 15406287,
+        "live_files": 1230,
+        "live_records": 94458,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 1.02,
+        "avg_live_file_bytes": 12525
+      },
+      "fact_hcpcs_event": {
+        "data_bytes": 8856381,
+        "data_objects": 805,
+        "meta_bytes": 126399,
+        "meta_objects": 10,
+        "class": "fact",
+        "category": "structured",
+        "physical_bytes": 8982780,
+        "physical_objects": 815,
+        "live_bytes": 2940092,
+        "live_files": 5,
+        "live_records": 186075,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 3.06,
+        "avg_live_file_bytes": 588018
+      },
+      "obt_patient_360": {
+        "data_bytes": 7706353,
+        "data_objects": 5,
+        "meta_bytes": 39174,
+        "meta_objects": 7,
+        "class": "obt",
+        "category": "structured",
+        "physical_bytes": 7745527,
+        "physical_objects": 12,
+        "live_bytes": 7706353,
+        "live_files": 5,
+        "live_records": 364627,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 1.01,
+        "avg_live_file_bytes": 1541270
+      },
+      "fact_icu_stay_accumulating": {
+        "data_bytes": 7311484,
+        "data_objects": 21,
+        "meta_bytes": 56780,
+        "meta_objects": 10,
+        "class": "fact",
+        "category": "structured",
+        "physical_bytes": 7368264,
+        "physical_objects": 31,
+        "live_bytes": 3605286,
+        "live_files": 5,
+        "live_records": 94459,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 2.04,
+        "avg_live_file_bytes": 721057
+      },
+      "fact_clinician_note_nlp_v": {
+        "data_bytes": 5106874,
+        "data_objects": 4,
+        "meta_bytes": 66115,
+        "meta_objects": 10,
+        "class": "ai_nlp",
+        "category": "unstructured_nlp",
+        "physical_bytes": 5172989,
+        "physical_objects": 14,
+        "live_bytes": null,
+        "live_files": null,
+        "live_records": null,
+        "exact_rows": null,
+        "athena_readable": false,
+        "physical_to_live_ratio": null,
+        "avg_live_file_bytes": null
+      },
+      "fact_discharge_note_nlp": {
+        "data_bytes": 1667421,
+        "data_objects": 64,
+        "meta_bytes": 3167212,
+        "meta_objects": 134,
+        "class": "ai_nlp",
+        "category": "unstructured_nlp",
+        "physical_bytes": 4834633,
+        "physical_objects": 198,
+        "live_bytes": 1667421,
+        "live_files": 64,
+        "live_records": 10000,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 2.9,
+        "avg_live_file_bytes": 26053
+      },
+      "dim_diagnosis": {
+        "data_bytes": 3612475,
+        "data_objects": 21,
+        "meta_bytes": 43614,
+        "meta_objects": 10,
+        "class": "dim",
+        "category": "structured",
+        "physical_bytes": 3656089,
+        "physical_objects": 31,
+        "live_bytes": 1703921,
+        "live_files": 1,
+        "live_records": 112107,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 2.15,
+        "avg_live_file_bytes": 1703921
+      },
+      "dim_patient": {
+        "data_bytes": 3331273,
+        "data_objects": 21,
+        "meta_bytes": 46287,
+        "meta_objects": 10,
+        "class": "dim",
+        "category": "structured",
+        "physical_bytes": 3377560,
+        "physical_objects": 31,
+        "live_bytes": 1566498,
+        "live_files": 1,
+        "live_records": 364627,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 2.16,
+        "avg_live_file_bytes": 1566498
+      },
+      "agg_admission_monthly": {
+        "data_bytes": 2996503,
+        "data_objects": 1262,
+        "meta_bytes": 80243,
+        "meta_objects": 7,
+        "class": "agg",
+        "category": "structured",
+        "physical_bytes": 3076746,
+        "physical_objects": 1269,
+        "live_bytes": 2996503,
+        "live_files": 1262,
+        "live_records": 10856,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 1.03,
+        "avg_live_file_bytes": 2374
+      },
+      "dim_procedure": {
+        "data_bytes": 2446013,
+        "data_objects": 21,
+        "meta_bytes": 43732,
+        "meta_objects": 10,
+        "class": "dim",
+        "category": "structured",
+        "physical_bytes": 2489745,
+        "physical_objects": 31,
+        "live_bytes": 1162172,
+        "live_files": 1,
+        "live_records": 86423,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 2.14,
+        "avg_live_file_bytes": 1162172
+      },
+      "agg_icu_fluid_balance_daily": {
+        "data_bytes": 1458959,
+        "data_objects": 64,
+        "meta_bytes": 34363,
+        "meta_objects": 7,
+        "class": "agg",
+        "category": "structured",
+        "physical_bytes": 1493322,
+        "physical_objects": 71,
+        "live_bytes": 1458959,
+        "live_files": 64,
+        "live_records": 75366,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 1.02,
+        "avg_live_file_bytes": 22796
+      },
+      "dim_hcpcs": {
+        "data_bytes": 951752,
+        "data_objects": 21,
+        "meta_bytes": 44771,
+        "meta_objects": 10,
+        "class": "dim",
+        "category": "structured",
+        "physical_bytes": 996523,
+        "physical_objects": 31,
+        "live_bytes": 358904,
+        "live_files": 1,
+        "live_records": 89208,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 2.78,
+        "avg_live_file_bytes": 358904
+      },
+      "agg_admission_daily": {
+        "data_bytes": 899184,
+        "data_objects": 64,
+        "meta_bytes": 32192,
+        "meta_objects": 7,
+        "class": "agg",
+        "category": "structured",
+        "physical_bytes": 931376,
+        "physical_objects": 71,
+        "live_bytes": 899184,
+        "live_files": 64,
+        "live_records": 244500,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 1.04,
+        "avg_live_file_bytes": 14049
+      },
+      "dim_date": {
+        "data_bytes": 426246,
+        "data_objects": 1,
+        "meta_bytes": 38064,
+        "meta_objects": 7,
+        "class": "dim",
+        "category": "structured",
+        "physical_bytes": 464310,
+        "physical_objects": 8,
+        "live_bytes": 426246,
+        "live_files": 1,
+        "live_records": 47846,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 1.09,
+        "avg_live_file_bytes": 426246
+      },
+      "dim_chart_item": {
+        "data_bytes": 311224,
+        "data_objects": 21,
+        "meta_bytes": 49635,
+        "meta_objects": 10,
+        "class": "dim",
+        "category": "structured",
+        "physical_bytes": 360859,
+        "physical_objects": 31,
+        "live_bytes": 84084,
+        "live_files": 1,
+        "live_records": 4095,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 4.29,
+        "avg_live_file_bytes": 84084
+      },
+      "dim_provider": {
+        "data_bytes": 143162,
+        "data_objects": 1,
+        "meta_bytes": 23842,
+        "meta_objects": 7,
+        "class": "dim",
+        "category": "structured",
+        "physical_bytes": 167004,
+        "physical_objects": 8,
+        "live_bytes": 143162,
+        "live_files": 1,
+        "live_records": 42245,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 1.17,
+        "avg_live_file_bytes": 143162
+      },
+      "dim_lab_item": {
+        "data_bytes": 92756,
+        "data_objects": 21,
+        "meta_bytes": 44360,
+        "meta_objects": 10,
+        "class": "dim",
+        "category": "structured",
+        "physical_bytes": 137116,
+        "physical_objects": 31,
+        "live_bytes": 15739,
+        "live_files": 1,
+        "live_records": 1650,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 8.71,
+        "avg_live_file_bytes": 15739
+      },
+      "etl_control": {
+        "data_bytes": 8188,
+        "data_objects": 7,
+        "meta_bytes": 118411,
+        "meta_objects": 20,
+        "class": "control",
+        "category": "structured",
+        "physical_bytes": 126599,
+        "physical_objects": 27,
+        "live_bytes": 8188,
+        "live_files": 7,
+        "live_records": 7,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 15.46,
+        "avg_live_file_bytes": 1169
+      },
+      "dim_caregiver": {
+        "data_bytes": 22492,
+        "data_objects": 1,
+        "meta_bytes": 23818,
+        "meta_objects": 7,
+        "class": "dim",
+        "category": "structured",
+        "physical_bytes": 46310,
+        "physical_objects": 8,
+        "live_bytes": 22492,
+        "live_files": 1,
+        "live_records": 17985,
+        "exact_rows": null,
+        "athena_readable": true,
+        "physical_to_live_ratio": 2.06,
+        "avg_live_file_bytes": 22492
+      }
+    }
+  },
+  "live_snapshot": {
+    "fact_discharge_note": {
+      "athena_readable": true,
+      "live_files": 4,
+      "live_bytes": 1102169141,
+      "live_records": 331793,
+      "exact_rows": null,
+      "error": null
+    },
+    "fact_radiology_note": {
+      "athena_readable": true,
+      "live_files": 8,
+      "live_bytes": 341502669,
+      "live_records": 309670,
+      "exact_rows": null,
+      "error": null
+    },
+    "fact_lab_result": {
+      "athena_readable": true,
+      "live_files": 65,
+      "live_bytes": 39046847,
+      "live_records": 1000000,
+      "exact_rows": null,
+      "error": null
+    },
+    "fact_pharmacy_order": {
+      "athena_readable": true,
+      "live_files": 17,
+      "live_bytes": 60651556,
+      "live_records": 1000000,
+      "exact_rows": null,
+      "error": null
+    },
+    "fact_medication_administration": {
+      "athena_readable": true,
+      "live_files": 32,
+      "live_bytes": 52072494,
+      "live_records": 1000000,
+      "exact_rows": null,
+      "error": null
+    },
+    "fact_input_event": {
+      "athena_readable": true,
+      "live_files": 9,
+      "live_bytes": 60097159,
+      "live_records": 1000000,
+      "exact_rows": null,
+      "error": null
+    },
+    "fact_prescription": {
+      "athena_readable": true,
+      "live_files": 17,
+      "live_bytes": 49538602,
+      "live_records": 1000000,
+      "exact_rows": null,
+      "error": null
+    },
+    "fact_ingredient_event": {
+      "athena_readable": true,
+      "live_files": 17,
+      "live_bytes": 43705208,
+      "live_records": 1000000,
+      "exact_rows": null,
+      "error": null
+    },
+    "fact_medication_administration_mini_detail": {
+      "athena_readable": true,
+      "live_files": 32,
+      "live_bytes": 16277887,
+      "live_records": 1000000,
+      "exact_rows": null,
+      "error": null
+    },
+    "fact_microbiology_result": {
+      "athena_readable": true,
+      "live_files": 9,
+      "live_bytes": 44884049,
+      "live_records": 1000000,
+      "exact_rows": null,
+      "error": null
+    },
+    "fact_procedure_event": {
+      "athena_readable": true,
+      "live_files": 5,
+      "live_bytes": 42460297,
+      "live_records": 808707,
+      "exact_rows": null,
+      "error": null
+    },
+    "fact_provider_order": {
+      "athena_readable": true,
+      "live_files": 16,
+      "live_bytes": 27023903,
+      "live_records": 1000000,
+      "exact_rows": null,
+      "error": null
+    },
+    "fact_transfer": {
+      "athena_readable": true,
+      "live_files": 9,
+      "live_bytes": 32304146,
+      "live_records": 1000000,
+      "exact_rows": null,
+      "error": null
+    },
+    "fact_output_event": {
+      "athena_readable": true,
+      "live_files": 9,
+      "live_bytes": 24357006,
+      "live_records": 1000000,
+      "exact_rows": null,
+      "error": null
+    },
+    "fact_datetime_event": {
+      "athena_readable": true,
+      "live_files": 9,
+      "live_bytes": 19879538,
+      "live_records": 1000000,
+      "exact_rows": null,
+      "error": null
+    },
+    "etl_process_log": {
+      "athena_readable": true,
+      "live_files": 3,
+      "live_bytes": 54917,
+      "live_records": 677,
+      "exact_rows": null,
+      "error": null
+    },
+    "fact_admission": {
+      "athena_readable": true,
+      "live_files": 5,
+      "live_bytes": 26817907,
+      "live_records": 546029,
+      "exact_rows": null,
+      "error": null
+    },
+    "fact_chart_observation": {
+      "athena_readable": true,
+      "live_files": 9,
+      "live_bytes": 13513933,
+      "live_records": 1000000,
+      "exact_rows": null,
+      "error": null
+    },
+    "obt_admission_features": {
+      "athena_readable": true,
+      "live_files": 1259,
+      "live_bytes": 38803836,
+      "live_records": 546031,
+      "exact_rows": null,
+      "error": null
+    },
+    "fact_provider_order_mini_detail": {
+      "athena_readable": true,
+      "live_files": 16,
+      "live_bytes": 12003080,
+      "live_records": 1000000,
+      "exact_rows": null,
+      "error": null
+    },
+    "fact_drg_assignment": {
+      "athena_readable": true,
+      "live_files": 9,
+      "live_bytes": 8153083,
+      "live_records": 761857,
+      "exact_rows": null,
+      "error": null
+    },
+    "fact_procedure": {
+      "athena_readable": true,
+      "live_files": 5,
+      "live_bytes": 11324300,
+      "live_records": 859656,
+      "exact_rows": null,
+      "error": null
+    },
+    "fact_outpatient_measurement": {
+      "athena_readable": true,
+      "live_files": 9,
+      "live_bytes": 8765132,
+      "live_records": 1000000,
+      "exact_rows": null,
+      "error": null
+    },
+    "fact_diagnosis": {
+      "athena_readable": true,
+      "live_files": 17,
+      "live_bytes": 6532737,
+      "live_records": 1000000,
+      "exact_rows": null,
+      "error": null
+    },
+    "fact_service_assignment": {
+      "athena_readable": true,
+      "live_files": 5,
+      "live_bytes": 10844144,
+      "live_records": 593072,
+      "exact_rows": null,
+      "error": null
+    },
+    "fact_radiology_note_nlp": {
+      "athena_readable": true,
+      "live_files": 128,
+      "live_bytes": 6481167,
+      "live_records": 2711,
+      "exact_rows": null,
+      "error": null
+    },
+    "obt_icu_stay_features": {
+      "athena_readable": true,
+      "live_files": 1230,
+      "live_bytes": 15406287,
+      "live_records": 94458,
+      "exact_rows": null,
+      "error": null
+    },
+    "fact_hcpcs_event": {
+      "athena_readable": true,
+      "live_files": 5,
+      "live_bytes": 2940092,
+      "live_records": 186075,
+      "exact_rows": null,
+      "error": null
+    },
+    "obt_patient_360": {
+      "athena_readable": true,
+      "live_files": 5,
+      "live_bytes": 7706353,
+      "live_records": 364627,
+      "exact_rows": null,
+      "error": null
+    },
+    "fact_icu_stay_accumulating": {
+      "athena_readable": true,
+      "live_files": 5,
+      "live_bytes": 3605286,
+      "live_records": 94459,
+      "exact_rows": null,
+      "error": null
+    },
+    "fact_clinician_note_nlp_v": {
+      "athena_readable": false,
+      "live_files": null,
+      "live_bytes": null,
+      "live_records": null,
+      "exact_rows": null,
+      "error": "Iceberg format-version 3 -- not readable by Athena engine v3"
+    },
+    "fact_discharge_note_nlp": {
+      "athena_readable": true,
+      "live_files": 64,
+      "live_bytes": 1667421,
+      "live_records": 10000,
+      "exact_rows": null,
+      "error": null
+    },
+    "dim_diagnosis": {
+      "athena_readable": true,
+      "live_files": 1,
+      "live_bytes": 1703921,
+      "live_records": 112107,
+      "exact_rows": null,
+      "error": null
+    },
+    "dim_patient": {
+      "athena_readable": true,
+      "live_files": 1,
+      "live_bytes": 1566498,
+      "live_records": 364627,
+      "exact_rows": null,
+      "error": null
+    },
+    "agg_admission_monthly": {
+      "athena_readable": true,
+      "live_files": 1262,
+      "live_bytes": 2996503,
+      "live_records": 10856,
+      "exact_rows": null,
+      "error": null
+    },
+    "dim_procedure": {
+      "athena_readable": true,
+      "live_files": 1,
+      "live_bytes": 1162172,
+      "live_records": 86423,
+      "exact_rows": null,
+      "error": null
+    },
+    "agg_icu_fluid_balance_daily": {
+      "athena_readable": true,
+      "live_files": 64,
+      "live_bytes": 1458959,
+      "live_records": 75366,
+      "exact_rows": null,
+      "error": null
+    },
+    "dim_hcpcs": {
+      "athena_readable": true,
+      "live_files": 1,
+      "live_bytes": 358904,
+      "live_records": 89208,
+      "exact_rows": null,
+      "error": null
+    },
+    "agg_admission_daily": {
+      "athena_readable": true,
+      "live_files": 64,
+      "live_bytes": 899184,
+      "live_records": 244500,
+      "exact_rows": null,
+      "error": null
+    },
+    "dim_date": {
+      "athena_readable": true,
+      "live_files": 1,
+      "live_bytes": 426246,
+      "live_records": 47846,
+      "exact_rows": null,
+      "error": null
+    },
+    "dim_chart_item": {
+      "athena_readable": true,
+      "live_files": 1,
+      "live_bytes": 84084,
+      "live_records": 4095,
+      "exact_rows": null,
+      "error": null
+    },
+    "dim_provider": {
+      "athena_readable": true,
+      "live_files": 1,
+      "live_bytes": 143162,
+      "live_records": 42245,
+      "exact_rows": null,
+      "error": null
+    },
+    "dim_lab_item": {
+      "athena_readable": true,
+      "live_files": 1,
+      "live_bytes": 15739,
+      "live_records": 1650,
+      "exact_rows": null,
+      "error": null
+    },
+    "etl_control": {
+      "athena_readable": true,
+      "live_files": 7,
+      "live_bytes": 8188,
+      "live_records": 7,
+      "exact_rows": null,
+      "error": null
+    },
+    "dim_caregiver": {
+      "athena_readable": true,
+      "live_files": 1,
+      "live_bytes": 22492,
+      "live_records": 17985,
+      "exact_rows": null,
+      "error": null
+    }
+  }
+}

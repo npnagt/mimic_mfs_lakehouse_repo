@@ -1,0 +1,17 @@
+# All local raw data lives under data/ and is never committed --
+# the demo dataset (data/raw/mimic-iv-clinical-database-demo-2.2/) and the
+# full MIMIC-IV 3.1 download (data/raw/mimic-iv-3.1-fulldataset/, ~19 GB).
+data/
+
+# Local environment config (see .env.example)
+.env
+
+# Python
+__pycache__/
+*.pyc
+p5_export/
+
+# Pipeline run logs, virtual environments, build metadata
+logs/
+.venv/
+*.egg-info/
